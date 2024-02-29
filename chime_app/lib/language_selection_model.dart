@@ -42,6 +42,7 @@ class LanguageSelectionModel with ChangeNotifier {
     _learningLanguageLocale = languageLocaleMap[_learningLanguage]; // 'ja'
     final ApiService apiService = ApiService();
     apiService.initTTS(_learningLanguageLocale);
+    apiService.learningLanguageLocale = _learningLanguageLocale;
     apiService.learningLanguage = _learningLanguage ?? 'None';
     notifyListeners();
   }

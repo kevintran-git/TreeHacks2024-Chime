@@ -17,6 +17,7 @@ class ApiService {
 
   String? nativeLanguage;
   String? learningLanguage;
+  String? learningLanguageLocale;
   String? languageLevel;
 
   ApiService._internal();
@@ -52,14 +53,18 @@ class ApiService {
   void setSpeechVoice(Map voice) {
     _flutterTts.setVoice({"name": voice["name"], "locale": voice["locale"]});
     _flutterTts.setLanguage(voice["locale"]);
-    _flutterTts.setSpeechRate(Platform.isIOS ? 0.52 : 1.5);
+    _flutterTts.setSpeechRate(Platform.isIOS ? 0.60 : 1.5);
 
     // _flutterTts.setSpeechRate(1);
   }
 
   Future<String> processAudio(XFile file) async {
-    var request =
-        http.MultipartRequest('POST', Uri.parse('$_baseUrl/process-audio/'));
+    var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$_baseUrl/process-audio/').replace(queryParameters: {
+          'languageLocale': learningLanguageLocale,
+        }));
+    print("Sending to " + request.url.toString());
     request.files.add(http.MultipartFile.fromBytes(
         'audio', await file.readAsBytes(),
         filename: 'audio.wav'));

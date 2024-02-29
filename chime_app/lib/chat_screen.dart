@@ -152,7 +152,7 @@ class _UserChatBubbleState extends State<UserChatBubble> {
   Future<void> _prepareAnnotations() async {
     // Fetch the annotations from the server
     // Use the 'message' directly
-    final message = await widget.messageFuture;
+    final message =   await widget.messageFuture;
     setState(() {
       widget.message = message;
     });
